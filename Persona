@@ -1,0 +1,109 @@
+package ar.edu.uno.leer.archivo.perdonas;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.LinkedList;
+import java.util.List;
+import java.io.*;
+
+public class Persona implements Comparable <Persona>  {
+
+
+	public static void main(String[] args) throws IOException {
+		// TODO Auto-generated method stub
+
+		LinkedList <Persona> lista = new LinkedList<Persona>(getPersonas("\\Users\\walda\\Desktop\\Personas.in.txt"));
+		System.out.println(lista);
+		getPersonasOrdenadasPorDni(lista);
+		System.out.println(lista);
+		//LinkedList <Persona> lista2 =getPersonasMayoresAEdad(lista,18);
+		System.out.println(getPersonasMayoresAEdad(lista,18));
+	}
+
+	private String dni,apellido,edad;
+
+	public Persona(String dni,String apellido,String edad) {
+		this.setApellido(apellido);
+		this.setDni(dni);
+		this.setEdad(edad);		
+	}
+
+	public static LinkedList<Persona> getPersonas(String archivo) throws IOException{
+		LinkedList <Persona> lp = new LinkedList<Persona>();
+		BufferedReader br = new BufferedReader(new FileReader(archivo));
+		String linea;
+		while ((linea=br.readLine())!=null) {
+			String[]split=linea.split(" ");
+			lp.add(new Persona(split[0],split[1],split[2]));
+		}
+		br.close();
+		return lp;
+	}
+
+	public static LinkedList<Persona> getPersonasOrdenadasPorDni (LinkedList <Persona> l) {
+		Collections.sort(l);
+		return l;
+	}
+
+	public int compareTo(Persona a) {
+		if (Integer.parseInt(this.getDni())<Integer.parseInt(a.getDni())) return -1;
+		else if (Integer.parseInt(this.getDni())==Integer.parseInt(a.getDni())) return 0;
+		return 1;
+	}
+
+	public static LinkedList<Persona> getPersonasMayoresAEdad(LinkedList<Persona> c, Integer b){
+		LinkedList <Persona> a = new LinkedList<Persona>();
+		int i=0;
+		while(c.iterator().hasNext()) {
+			if((Integer.parseInt(c.get(i).getEdad()))>b) {
+				a.add(new Persona(c.get(i).getDni(),c.get(i).getApellido(),c.get(i).getEdad()));
+			
+			}
+			i++;
+		}
+		return a;
+	}
+
+	public String getDni() {
+		return dni;
+	}
+	public void setDni(String dni) {
+		this.dni = dni;
+	}
+	public String getApellido() {
+		return apellido;
+	}
+	public void setApellido(String apellido) {
+		this.apellido = apellido;
+	}
+	public String getEdad() {
+		return edad;
+	}
+	public void setEdad(String edad) {
+		this.edad = edad;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Persona other = (Persona) obj;
+		if (dni == null) {
+			if (other.dni != null)
+				return false;
+		} else if (!dni.equals(other.dni))
+			return false;
+		return true;
+	}
+
+
+	@Override
+	public String toString() {
+		return "Persona [dni=" + dni + ", apellido=" + apellido + ", edad=" + edad + "]";
+	}
+
+
+}
