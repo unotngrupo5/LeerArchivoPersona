@@ -1,8 +1,6 @@
 package ar.edu.uno.leer.archivo.perdonas;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.LinkedList;
-import java.util.List;
 import java.io.*;
 
 public class Persona implements Comparable <Persona>  {
@@ -11,12 +9,12 @@ public class Persona implements Comparable <Persona>  {
 	public static void main(String[] args) throws IOException {
 		// TODO Auto-generated method stub
 
-		LinkedList <Persona> lista = new LinkedList<Persona>(getPersonas("\\Users\\walda\\Desktop\\Personas.in.txt"));
-		System.out.println(lista);
+		LinkedList <Persona> lista = new LinkedList<Persona>(getPersonas2("\\Users\\walda\\Desktop\\Personas.in.txt"));
+		System.out.println("Lista Armada"+lista);
 		getPersonasOrdenadasPorDni(lista);
-		System.out.println(lista);
-		//LinkedList <Persona> lista2 =getPersonasMayoresAEdad(lista,18);
-		System.out.println(getPersonasMayoresAEdad(lista,18));
+		System.out.println("Ordenada por DNI"+lista);
+		LinkedList <Persona> lista2 =getPersonasMayoresAEdad(lista,35);
+		System.out.println("Mayores"+lista2);
 	}
 
 	private String dni,apellido,edad;
@@ -27,7 +25,7 @@ public class Persona implements Comparable <Persona>  {
 		this.setEdad(edad);		
 	}
 
-	public static LinkedList<Persona> getPersonas(String archivo) throws IOException{
+	public static LinkedList<Persona> getPersonas2(String archivo) throws IOException{
 		LinkedList <Persona> lp = new LinkedList<Persona>();
 		BufferedReader br = new BufferedReader(new FileReader(archivo));
 		String linea;
@@ -52,13 +50,10 @@ public class Persona implements Comparable <Persona>  {
 
 	public static LinkedList<Persona> getPersonasMayoresAEdad(LinkedList<Persona> c, Integer b){
 		LinkedList <Persona> a = new LinkedList<Persona>();
-		int i=0;
-		while(c.iterator().hasNext()) {
+		for(int i=0;i<c.size();i++) {
 			if((Integer.parseInt(c.get(i).getEdad()))>b) {
 				a.add(new Persona(c.get(i).getDni(),c.get(i).getApellido(),c.get(i).getEdad()));
-			
 			}
-			i++;
 		}
 		return a;
 	}
@@ -66,22 +61,27 @@ public class Persona implements Comparable <Persona>  {
 	public String getDni() {
 		return dni;
 	}
+	
 	public void setDni(String dni) {
 		this.dni = dni;
 	}
+	
 	public String getApellido() {
 		return apellido;
 	}
+	
 	public void setApellido(String apellido) {
 		this.apellido = apellido;
 	}
+	
 	public String getEdad() {
 		return edad;
 	}
+	
 	public void setEdad(String edad) {
 		this.edad = edad;
 	}
-
+	
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
